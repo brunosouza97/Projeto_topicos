@@ -51,9 +51,9 @@ freq_tweets = vectorizer.fit_transform(tweets_com_steming)
 modelo = LogisticRegression()
 modelo.fit(freq_tweets,classes)
 
-testes = ['eu odeio você','eu amo você','você me da nojo','não vá ali', 'é perigoso']
-
-freq_testes = vectorizer.transform(testes)
+testes = ['eu te odeio']
+t1 = remove_stopwords(testes)
+freq_testes = vectorizer.transform(t1)
 teste = modelo.predict(freq_testes)
 print(teste)
 resultados = cross_val_predict(modelo, freq_tweets, classes, cv=10)

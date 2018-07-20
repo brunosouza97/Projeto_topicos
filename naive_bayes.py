@@ -40,17 +40,18 @@ def aplica_stemmer(word_list):
 
 tweets_sem_stop_word = remove_stopwords(tweets)
 tweets_com_steming = aplica_stemmer(tweets_sem_stop_word)
-print(tweets_com_steming)
+#print(tweets_com_steming)
 vectorizer = CountVectorizer(ngram_range=(1,2))
 freq_tweets = vectorizer.fit_transform(tweets_sem_stop_word)
 modelo = MultinomialNB()
 modelo.fit(freq_tweets,classes)
 
-testes = ['eu odeio você','eu amo você','você me da nojo','não vá ali', 'é perigoso']
-
-freq_testes = vectorizer.transform(testes)
+testes = ['eu odeio você','eu amo você','você me da nojo','não vá ali', 'é perigoso', 'você partiu meu coração']
+t1 = remove_stopwords(testes)
+t2 = aplica_stemmer(t1)
+freq_testes = vectorizer.transform(t1)
 teste = modelo.predict(freq_testes)
-#print(teste)
+print(teste)
 resultados = cross_val_predict(modelo, freq_tweets, classes, cv=10)
 print(metrics.accuracy_score(classes,resultados))
 sentimento=['Alegria','Medo','Desprezo','Tristeza','Raiva','Desgosto']
