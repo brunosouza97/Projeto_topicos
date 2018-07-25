@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import sklearn as smv
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 from sklearn.model_selection import cross_val_predict
@@ -40,16 +41,19 @@ def aplica_stemmer(word_list):
 
 tweets_sem_stop_word = remove_stopwords(tweets)
 tweets_com_steming = aplica_stemmer(tweets_sem_stop_word)
-#print(tweets_com_steming)
-vectorizer = CountVectorizer(ngram_range=(1,2))
-freq_tweets = vectorizer.fit_transform(tweets_sem_stop_word)
+#print
+#ngram_range=(1,2)
+#TfidfVectorizer
+#CountVectorizer
+vectorizer = TfidfVectorizer(encoding='utf-8', strip_accents='ascii', analyzer='word')
+freq_tweets = vectorizer.fit_transform(tweets_com_steming)
 modelo = MultinomialNB()
 modelo.fit(freq_tweets,classes)
 
-testes = ['eu odeio você','eu amo você','você me da nojo','não vá ali', 'é perigoso', 'você partiu meu coração']
+testes = ['eu odeio você','eu amo você','você me da nojo','não vá ali', 'é perigoso', 'você partiu meu coração','se você for embora eu não sei o que será da minha vida','a proxima vez que você fizer isso eu vou te bater','que dia lindo']
 t1 = remove_stopwords(testes)
 t2 = aplica_stemmer(t1)
-freq_testes = vectorizer.transform(t1)
+freq_testes = vectorizer.transform(t2)
 teste = modelo.predict(freq_testes)
 print(teste)
 resultados = cross_val_predict(modelo, freq_tweets, classes, cv=10)
